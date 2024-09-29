@@ -4,7 +4,7 @@ using Poochatting.Services;
 
 namespace Poochatting.Controllers
 {
-    [Route("api/account")]
+    [Route("api/auth")]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -13,7 +13,8 @@ namespace Poochatting.Controllers
         {
             _service = service;
         }
-        [HttpPost("register")]
+        [HttpPost]
+        [Route("register")]
         public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
         {
             _service.RegisterUser(dto);
@@ -23,8 +24,8 @@ namespace Poochatting.Controllers
         [HttpPost("login")]
         public ActionResult Login([FromBody] LoginDto dto)
         {
-            var token = _service.GenerateJwt(dto);
-            return Ok(token);
+            var authData = _service.GenerateJwt(dto);
+            return Ok(authData);
         }
 
     }

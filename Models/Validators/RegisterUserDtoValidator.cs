@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Poochatting.Entities;
+using Poochatting.Exceptions;
 
 namespace Poochatting.Models.Validators
 {
@@ -18,8 +19,9 @@ namespace Poochatting.Models.Validators
             RuleFor(x => x.Email).Custom((value, context) =>
             {
                 var emailInUse = dbcontext.Users.Any(u => u.Email == value);
-                if (emailInUse) {
-                    context.AddFailure("Email", "That email is taken");
+                if (emailInUse)
+                {
+                    throw new BadRequestException("Email already taken");
                 }
             });
         }

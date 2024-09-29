@@ -8,6 +8,7 @@ using Poochatting.Services;
 namespace Poochatting.Controllers
 {
     [Route("api/message")]
+    [Authorize]
     public class MessageController : ControllerBase
     {
         private readonly IMessageService _messageService;
@@ -15,12 +16,13 @@ namespace Poochatting.Controllers
         {
             _messageService = messageService;
         }
-        [HttpGet]
-        [Authorize]
-        public ActionResult<IEnumerable<MessageDto>> GetAll()
+        // TO DO: change this to something like api/message?channel={id} and query selections
+
+        [HttpGet("channel/{channelId}")]
+        public ActionResult<IEnumerable<MessageModel>> GetAll([FromRoute] int channelId)
         {
-            var messages = _messageService.GetAll();
-            
+            var messages = _messageService.GetAll(channelId);
+
             return Ok(messages);
         }
         [HttpGet("{id}")]
@@ -35,7 +37,7 @@ namespace Poochatting.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var id = _messageService.PostMessage(dto);
+            var id = _messageService.PostMessageAsync(dto);
 
             return Created("", null);
         }

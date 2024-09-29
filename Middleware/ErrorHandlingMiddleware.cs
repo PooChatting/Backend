@@ -16,7 +16,12 @@ namespace Poochatting.Middleware
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(notFoundException.Message);
             }
-            catch(BadRequestException exception)
+            catch (UnauthorizedException exception)
+            {
+                context.Response.StatusCode = 401;
+                await context.Response.WriteAsync(exception.Message);
+            }
+            catch (BadRequestException exception)
             {
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(exception.Message);

@@ -8,8 +8,8 @@ namespace Poochatting
     {
         public MessagesMappingProfile()
         {
-            CreateMap<Message, MessageDto>();
-            CreateMap<MessageDto, Message>();
+            CreateMap<Message, MessageModel>();
+            CreateMap<MessageModel, Message>();
             CreateMap<CreateMessageDto, Message>();
         }
     }

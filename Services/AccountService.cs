@@ -12,7 +12,7 @@ namespace Poochatting.Services
 {
     public interface IAccountService
     {
-        string GenerateJwt(LoginDto dto);
+        AuthData GenerateJwt(LoginDto dto);
         void RegisterUser(RegisterUserDto dto);
     }
     public class AccountService : IAccountService
@@ -32,7 +32,8 @@ namespace Poochatting.Services
             {
                 Email = dto.Email,
                 RoleId = dto.RoleId,
-                Username = dto.Username
+                Username = dto.Username,
+                ChannelsIds = []                
             };
             var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
 
@@ -40,7 +41,7 @@ namespace Poochatting.Services
             _context.Users.Add(newUser);
             _context.SaveChanges();
         }
-        public string GenerateJwt(LoginDto dto)
+        public AuthData GenerateJwt(LoginDto dto)
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == dto.Email);
 
@@ -69,7 +70,12 @@ namespace Poochatting.Services
             var token = new JwtSecurityToken(_authentication.JwtIssuer, _authentication.JwtIssuer, claims, expires: expires, signingCredentials: cred);
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            return tokenHandler.WriteToken(token);
+            var authData = new AuthData() 
+            { 
+                JwtToken = tokenHandler.WriteToken(token), 
+                Id = user.Id
+            };
+            return authData;
 
         }
     }
