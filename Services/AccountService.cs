@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using Poochatting.Entities;
+using Poochatting.DbContext;
+using Poochatting.DbContext.Entities;
 using Poochatting.Exceptions;
 using Poochatting.Models;
 using System.Data;

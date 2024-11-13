@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Poochatting.Entities;
+using Poochatting.DbContext;
 using Poochatting.Exceptions;
 
 namespace Poochatting.Models.Validators

@@ -29,7 +29,7 @@ namespace Poochatting.Middleware
             catch (Exception e)
             {
                 context.Response.StatusCode = 500;
-                await context.Response.WriteAsync("Something went REALLY wrong");
+                await context.Response.WriteAsync(e.Message);
             }
         }
     }

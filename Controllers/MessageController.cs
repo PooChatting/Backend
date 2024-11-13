@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Poochatting.DbContext.Entities;
 using Poochatting.Entities;
 using Poochatting.Models;
+using Poochatting.Models.Queries;
 using Poochatting.Services;
 
 namespace Poochatting.Controllers
@@ -19,19 +21,22 @@ namespace Poochatting.Controllers
         // TO DO: change this to something like api/message?channel={id} and query selections
 
         [HttpGet("channel/{channelId}")]
-        public ActionResult<IEnumerable<MessageModel>> GetAll([FromRoute] int channelId)
+        public async Task<ActionResult<IEnumerable<MessageModel>>> GetMessagesAsync([FromRoute] int channelId, [FromQuery] MessageQueryParams paginationParameters)
         {
-            var messages = _messageService.GetAll(channelId);
+            var messages = await _messageService.GetAll(channelId, paginationParameters);
 
             return Ok(messages);
         }
-        [HttpGet("{id}")]
-        public ActionResult<Message> Get([FromRoute] int id)
-        {
-            var message = _messageService.GetById(id);
+        
+        // Propably don't need this
 
-            return Ok(message);
-        }
+        //[HttpGet("{id}")]
+        //public ActionResult<Message> Get([FromRoute] int id)
+        //{
+        //    var message = _messageService.GetById(id);
+
+        //    return Ok(message);
+        //}
         [HttpPost]
         public ActionResult<Message> PostMessage([FromBody] CreateMessageDto dto)
         {
@@ -47,7 +52,7 @@ namespace Poochatting.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            _messageService.PutMessage(dto);
+            _messageService.PutMessage(dto, User);
 
             return Ok();
         }
@@ -55,7 +60,7 @@ namespace Poochatting.Controllers
         [HttpDelete("{id}")]
         public ActionResult DeleteMessage([FromRoute] int id) 
         { 
-            _messageService.Delete(id);
+            _messageService.Delete(id, User);
 
             return Ok();
 

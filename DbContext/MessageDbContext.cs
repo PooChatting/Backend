@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Poochatting.DbContext.Entities;
 
-namespace Poochatting.Entities
+namespace Poochatting.DbContext
 {
-    public class MessageDbContext : DbContext
+    public class MessageDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         private string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=MessageDb;Trusted_Connection=True;";
         public DbSet<Message> Messages { get; set; }

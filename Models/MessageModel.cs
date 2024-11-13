@@ -1,4 +1,6 @@
-﻿namespace Poochatting.Models
+﻿using Poochatting.Models.Enums;
+
+namespace Poochatting.Models
 {
     public class MessageModel
     {
@@ -10,5 +12,8 @@
         public string MessageText { get; set; }
         public DateTime Publication { get; set; }
         public bool WasEdited { get; set; }
+        public MessageTypeEnum MessageTypeEnum { get; set; }
+        public int? ReplyToId { get; set; }
+        public bool HadBeenRead { get; set; }
     }
 }

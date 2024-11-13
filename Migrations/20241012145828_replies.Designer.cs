@@ -14,8 +14,8 @@ using Poochatting.DbContext;
 namespace Poochatting.Migrations
 {
     [DbContext(typeof(MessageDbContext))]
-    [Migration("20240920160207_users")]
-    partial class users
+    [Migration("20241012145828_replies")]
+    partial class replies
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,8 +46,14 @@ namespace Poochatting.Migrations
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
 
+                    b.Property<int>("MessageTypeEnum")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Publication")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("ReplyToId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("WasEdited")
                         .HasColumnType("bit");

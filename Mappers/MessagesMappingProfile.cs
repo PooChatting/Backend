@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+using Poochatting.DbContext.Entities;
 using Poochatting.Entities;
 using Poochatting.Models;
 
-namespace Poochatting
+namespace Poochatting.Mappers
 {
     public class MessagesMappingProfile : Profile
     {

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Poochatting.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Poochatting.Entities
 {
@@ -10,5 +11,7 @@ namespace Poochatting.Entities
         [Required]
         [MaxLength(2048)]
         public string MessageText { get; set; }
+        public MessageTypeEnum MessageTypeEnum { get; set; }
+        public int? ReplyToId { get; set; }
     }
 }

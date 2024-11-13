@@ -1,14 +1,18 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Poochatting;
+using Poochatting.Authorization;
 using Poochatting.ChatHub;
-using Poochatting.Entities;
+using Poochatting.DbContext;
+using Poochatting.DbContext.Entities;
 using Poochatting.Middleware;
 using Poochatting.Models;
+using Poochatting.Models.Queries;
 using Poochatting.Models.Validators;
 using Poochatting.Services;
 using System.Text;
@@ -54,8 +58,13 @@ builder.Services.AddAuthentication(option =>
     };
 });
 
-builder.Services.AddControllers();
-builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new ValidateModelAttribute());
+});
+
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddDbContext<MessageDbContext>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddSignalR();
@@ -63,9 +72,11 @@ builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IChannelService, ChannelService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAccountContextService, AccountContextService>();
+builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
+builder.Services.AddScoped<IValidator<MessageQueryParams>, MessageQueryValidator>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR(o => o.EnableDetailedErrors = true);
 

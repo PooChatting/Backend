@@ -7,15 +7,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Poochatting.DbContext;
 
-
-
 #nullable disable
 
 namespace Poochatting.Migrations
 {
     [DbContext(typeof(MessageDbContext))]
-    [Migration("20240920160207_users")]
-    partial class users
+    [Migration("20241025133138_hadbeenread")]
+    partial class hadbeenread
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +25,7 @@ namespace Poochatting.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Poochatting.Entities.Message", b =>
+            modelBuilder.Entity("Poochatting.DbContext.Entities.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,8 +44,14 @@ namespace Poochatting.Migrations
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
 
+                    b.Property<int>("MessageTypeEnum")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Publication")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("ReplyToId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("WasEdited")
                         .HasColumnType("bit");
@@ -57,7 +61,7 @@ namespace Poochatting.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("Poochatting.Entities.Role", b =>
+            modelBuilder.Entity("Poochatting.DbContext.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,7 +78,7 @@ namespace Poochatting.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("Poochatting.Entities.User", b =>
+            modelBuilder.Entity("Poochatting.DbContext.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

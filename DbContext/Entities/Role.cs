@@ -1,4 +1,4 @@
-﻿namespace Poochatting.Entities
+﻿namespace Poochatting.DbContext.Entities
 {
     public class Role
     {
